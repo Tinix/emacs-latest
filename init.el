@@ -1,4 +1,5 @@
 (require 'package)
+
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 (custom-set-variables
@@ -7,7 +8,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(treemacs railscasts-theme gruvbox-theme solarized-theme projectile evil yasnippet rubocop ruby-end inf-ruby)))
+   '(dirtree use-package cider god-mode treemacs railscasts-theme gruvbox-theme solarized-theme projectile evil yasnippet rubocop ruby-end inf-ruby)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -51,3 +52,62 @@
 
 ;; Line mode on
 (global-linum-mode t)
+
+(add-to-list 'load-path "~/.emacs.d/elpa/neotree")
+(require 'neotree)
+
+(global-set-key (kbd "C-e") 'neotree-toggle)
+
+
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+
+(setq god-mode 1) 
+
+;; Cifer-mode enable
+(add-hook 'clojure-mode-hook 'cider-mode)
+(setq cider-debug-on-start t)
+(setq cider-compile-on-save t)
+
+
+;; Ruby-mode enable
+(require 'ruby-mode)
+(require 'rspec-mode)
+(add-hook 'ruby-mode-hook 'rspec-mode)
+(setq rspec-run-specs-on-save t)
+
+(use-package company
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
+
+(global-set-key (kbd "TAB") #'company-indent-or-complete-common)
+(add-hook 'emacs-lips-mode-hook #'company-mode)
+(setq company-idle-delay 0.5)
+;; customize apperance
+(setq company-tooltip-maximun-entries 40)
+
+;; require dirtree
+(require 'dirtree)
+
+(defun ep-dirtree ()
+  (interactive)
+  (dirtree-in-buffer eproject-root t))
+
+;; Instala dirtree si aún no lo has hecho
+(use-package dirtree
+  :ensure t
+  :bind ("<C-e>" . dirtree-show))
+
+;; Configuración adicional si lo necesitas
+(setq dirtree-width 30)  ;; Ajusta el ancho del árbol según tus preferencias
+
+
+
+
+
+
+
+
+
+
